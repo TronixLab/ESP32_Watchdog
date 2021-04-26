@@ -12,4 +12,16 @@ Fig. 1 shows a typical arrangement of the watchdog timer as an external block to
 
 **Listing 1** *Basic Watchdog Timer*
 
-Fig. 1 shows a typical arrangement of the watchdog timer as an external block to the processor. However, it could also be included within the same chip as the CPU. This is done in many microcontrollers. In either case, the output from the watchdog timer is tied directly to the processor's reset signal. In some engineer's opinion that, if an MCU could fail, the same could happen to its internal WDT. Thus, the external WDT was their preferred option. Using an internal WDT requires one less component and is, therefore, cheaper [[6](https://www.eeweb.com/using-the-microcontrollers-watchdog-timer-wdt-effectively/)]. On the other hand, there’s still a valid argument to be made for using an external WDT, because an internal WDT can be turned off accidentally by runaway code. Ultimately, the choice of internal versus external WDT relies on the nature of the application and the production budget for the hardware.
+In some engineer's opinion that, if an MCU could fail, the same could happen to its internal WDT. Thus, the external WDT was their preferred option. Using an internal WDT requires one less component and is, therefore, cheaper [[6](https://www.eeweb.com/using-the-microcontrollers-watchdog-timer-wdt-effectively/)]. On the other hand, there’s still a valid argument to be made for using an external WDT, because an internal WDT can be turned off accidentally by runaway code. Ultimately, the choice of internal versus external WDT relies on the nature of the application and the production budget for the hardware.
+
+## What are the potential causes of the hang event?
+A Microcontroller Unit (MCU) that causes failure can cause a complete standstill in operations. This can inconvenience users or pose functional safety risks in critical applications. A safety mechanism is extremely important. A reliable embedded system requires a combined effort from the hardware designer and the firmware programmer. These are some reasons why MCU may have a failure mechanism [[7](https://resources.altium.com/p/microcontroller-failure-modes-why-they-happen-and-how-to-prevent-them)].
+* Electrical noise can cause a power glitch, it may corrupt the program counter.
+* Unstable power source.
+* Memory stack overflow.
+* A hardware component is not responding to request.
+* Electrical interference (back-EMF, EMI, electrostatic discharge, cosmic ray, etc.).
+* Dead-lock condition.
+* Lots of interrupts (ISR).
+
+
