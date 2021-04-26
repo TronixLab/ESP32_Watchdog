@@ -61,4 +61,4 @@ Since the WDT is the very last line of defense, its design must anticipate any f
 * The WDT must always, under any condition barring perhaps a hardware failure, bring the system back to life.
 * Some WDTs issue a non-maskable interrupt (NMI) instead of a reset.
 
-**Listing 5** *[The Great Watchdog](https://github.com/TronixLab/ESP32_Watchdog/tree/main/example/Listing5_GreatWDT)*
+**Listing 5** *[The Great Watchdog](https://github.com/TronixLab/ESP32_Watchdog/blob/main/example/Listing5_GreatWDT/Listing5_GreatWDT.ino)*
