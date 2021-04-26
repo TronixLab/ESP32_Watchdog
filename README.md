@@ -32,13 +32,13 @@ As one of the example demonstrated by **Listing 2**, *Deadlock* is a phenomenon 
 ## IV. Structure of Watchdog Timer
 Kicking the dog at a regular interval proves that the software is running. It is often a good idea to kick the dog only if the system passes some sanity check, as shown in **Fig. 2**:  The main program typically has a loop that it constantly goes through performing various functions. The watchdog timer is loaded with an initial value greater than the worst-case time delay through the main program loop. Each time it goes through the main loop the code resets the watchdog timer   (“kicking” or “feeding” the dog). If a fault occurs and the main program does not get back to reset the timer before it counts down to zero, an interrupt is generated to reset the processor. Used in this way, the watchdog timer can detect a fault on an unattended Arduino program and attempt corrective action with a reset [[5](https://www.digikey.com/en/articles/a-designers-guide-to-watchdog-timers)]. The best example of this structure is shown in **Listing 1**.
 
-| ![space-1.jpg](https://files.readme.io/b302301-out.gif) | 
+| ![space-1.jpg](https://github.com/TronixLab/ESP32_Watchdog/blob/main/docx/2.jpg?raw=true) | 
 |:--:| 
 | **Fig. 2** *A simple sanity checking* |
 
 In some cases, there are some buffers allocated or the status of some component may be checked before deciding to kick the dog. Good design of such checks will increase the family of errors that the watchdog will detect.  One approach is to clear some flags before each loop is started, as shown in **Fig. 3**.
 
-| ![space-1.jpg](https://files.readme.io/b302301-out.gif) | 
+| ![space-1.jpg](https://github.com/TronixLab/ESP32_Watchdog/blob/main/docx/3.jpg?raw=true) | 
 |:--:| 
 | **Fig. 3** *A sanity checking with multiple flags in a single loop* |
 
@@ -48,7 +48,7 @@ Each flag is set at a certain point in the loop. At the bottom of the loop, the 
 
 For a structure requiring multitasking as shown in **Fig. 4**, particularly a system running on Real-Time Operating System (RTOS). This scheme uses a task dedicated to the watchdog as demonstrated in **Listing 4**. This task wakes up at a regular interval and checks the sanity of all other tasks in the system. If all tasks pass the test, the watchdog is kicked. The watchdog monitor task runs at a higher priority than the tasks it is monitoring.  
 
-| ![space-1.jpg](https://files.readme.io/b302301-out.gif) | 
+| ![space-1.jpg](https://github.com/TronixLab/ESP32_Watchdog/blob/main/docx/4.jpg?raw=true) | 
 |:--:| 
 | **Fig. 4** *A sanity checking with multiple flags in a single loop* |
 
