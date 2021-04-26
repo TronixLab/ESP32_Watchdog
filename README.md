@@ -11,7 +11,7 @@ A **watchdog timer** (WDT) is a hardware timer that can be used to automatically
 
 Fig. 1 shows a typical arrangement of the watchdog timer as an external block to the processor. However, it could also be included within the same chip as the CPU. This is done in many microcontrollers. In either case, the output from the watchdog timer is tied directly to the processor's reset signal. 
 
-**Listing 1** *Basic Watchdog Timer*
+**Listing 1** *[Basic Watchdog Timer](https://github.com/TronixLab/ESP32_Watchdog/blob/main/example/Listing1_BasicWDT/Listing1_BasicWDT.ino)*
 
 In some engineer's opinion that, if an MCU could fail, the same could happen to its internal WDT. Thus, the external WDT was their preferred option. Using an internal WDT requires one less component and is, therefore, cheaper [[6](https://www.eeweb.com/using-the-microcontrollers-watchdog-timer-wdt-effectively/)]. On the other hand, there’s still a valid argument to be made for using an external WDT, because an internal WDT can be turned off accidentally by runaway code. Ultimately, the choice of internal versus external WDT relies on the nature of the application and the production budget for the hardware.
 
@@ -50,7 +50,7 @@ For a structure requiring multitasking as shown in **Fig. 4**, particularly a sy
 
 | ![space-1.jpg](https://github.com/TronixLab/ESP32_Watchdog/blob/main/docx/4.jpg?raw=true) | 
 |:--:| 
-| **Fig. 4** *A sanity checking with multiple flags in a single loop* |
+| **Fig. 4** *A sanity checking with multiple flags in a multiple tasks* |
 
 **Listing 4** *Sanity checking with a multiple tasks*
 
