@@ -25,7 +25,40 @@ A Microcontroller Unit (MCU) that causes failure can cause a complete standstill
 * Dead-lock condition.
 * A lot of interrupts (e.g. interrupt service routine, timer interrupts, etc.).
 
-As one of the example, *Deadlock* is a phenomenon when two tasks are in a blocked state waiting for the resources held by one and another simultaneously. When using a real-time operating system (FreeRTOS), such a deadlock can only be avoided by carefully programming real-time applications. Unlike the priority assignment protocol, FreeRTOS does not have a solution to the issue of deadlock. It can only be solved when designing real-time embedded systems. We must design tasks in such a way that a deadlock does not occur. 
+As one of the example demonstrated by **Listing 2**, *Deadlock* is a phenomenon when two tasks are in a blocked state waiting for the resources held by one and another simultaneously. When using a real-time operating system (FreeRTOS), such a deadlock can only be avoided by carefully programming real-time applications. Unlike the priority assignment protocol, FreeRTOS does not have a solution to the issue of deadlock. It can only be solved when designing real-time embedded systems. We must design tasks in such a way that a deadlock does not occur. 
 
-## IV. IV.	Structure of Watchdog Timer
-Kicking the dog at a regular interval proves that the software is running. It is often a good idea to kick the dog only if the system passes some sanity check, as shown in Fig. 2:  The main program typically has a loop that it constantly goes through performing various functions. The watchdog timer is loaded with an initial value greater than the worst-case time delay through the main program loop. Each time it goes through the main loop the code resets the watchdog timer   (“kicking” or “feeding” the dog). If a fault occurs and the main program does not get back to reset the timer before it counts down to zero, an interrupt is generated to reset the processor. Used in this way, the watchdog timer can detect a fault on an unattended Arduino program and attempt corrective action with a reset [[5](https://www.digikey.com/en/articles/a-designers-guide-to-watchdog-timers)]. The best example of this structure is shown in Listing 1.
+**Listing 2** *Deadlock*
+
+## IV. Structure of Watchdog Timer
+Kicking the dog at a regular interval proves that the software is running. It is often a good idea to kick the dog only if the system passes some sanity check, as shown in **Fig. 2**:  The main program typically has a loop that it constantly goes through performing various functions. The watchdog timer is loaded with an initial value greater than the worst-case time delay through the main program loop. Each time it goes through the main loop the code resets the watchdog timer   (“kicking” or “feeding” the dog). If a fault occurs and the main program does not get back to reset the timer before it counts down to zero, an interrupt is generated to reset the processor. Used in this way, the watchdog timer can detect a fault on an unattended Arduino program and attempt corrective action with a reset [[5](https://www.digikey.com/en/articles/a-designers-guide-to-watchdog-timers)]. The best example of this structure is shown in **Listing 1**.
+
+| ![space-1.jpg](https://files.readme.io/b302301-out.gif) | 
+|:--:| 
+| **Fig. 2** *A simple sanity checking* |
+
+In some cases, there are some buffers allocated or the status of some component may be checked before deciding to kick the dog. Good design of such checks will increase the family of errors that the watchdog will detect.  One approach is to clear some flags before each loop is started, as shown in **Fig. 3**.
+
+| ![space-1.jpg](https://files.readme.io/b302301-out.gif) | 
+|:--:| 
+| **Fig. 3** *A sanity checking with multiple flags in a single loop* |
+
+Each flag is set at a certain point in the loop. At the bottom of the loop, the dog is kicked, but first, the flags are checked to see that all of the important points in the loop have been visited. The structure is shown in Fig.3 can be demonstrated in **Listing 3**.
+
+**Listing 3** *Sanity checking in a single loop*
+
+For a structure requiring multitasking as shown in **Fig. 4**, particularly a system running on Real-Time Operating System (RTOS). This scheme uses a task dedicated to the watchdog as demonstrated in **Listing 4**. This task wakes up at a regular interval and checks the sanity of all other tasks in the system. If all tasks pass the test, the watchdog is kicked. The watchdog monitor task runs at a higher priority than the tasks it is monitoring.  
+
+| ![space-1.jpg](https://files.readme.io/b302301-out.gif) | 
+|:--:| 
+| **Fig. 4** *A sanity checking with multiple flags in a single loop* |
+
+**Listing 4** *Sanity checking with a multiple tasks*
+
+The watchdog timeout can be chosen to be the maximum time during which all regular tasks have had a chance to run from their start point through one full loop back to their start point again. Each task has a flag which can have two values, **TRUE** and **FLASE**. The flag is later read and written by the monitor. The monitor's job is to wake up before the watchdog timeout expires and check the status of each flag. If all flags contain the value **TRUE**, every task got its turn to execute and the watchdog may be kicked. Some tasks may have executed several loops and set their flag to ALIVE several times, which is acceptable. After kicking the watchdog, the monitor sets all of the flags to **FLASE**. By the time the monitor task executes again, all of the **FLASE** flags should have been overwritten with **TRUE**. 
+
+Since the WDT is the very last line of defense, its design must anticipate any failure mode. One may ask, “What are the characteristics of a great watchdog?”
+* The WDT must be independent of the CPU
+* The WDT must always, under any condition barring perhaps a hardware failure, bring the system back to life.
+* Some WDTs issue a non-maskable interrupt (NMI) instead of a reset.
+
+**Listing 5** *The Great Watchdog*
