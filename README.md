@@ -4,11 +4,8 @@ If your program gets stuck for some reason, the fastest way to recover is to res
 ## II. What is Watchdog Timer?
 A **watchdog timer** (WDT) is a hardware timer that can be used to automatically detect software anomalies and automatically generates a system reset if the main program neglects to periodically service it. It is often used to automatically reset an embedded device that hangs because of a software or hardware fault [[4](https://os.mbed.com/cookbook/WatchDog-Timer)]. Generally speaking, a watchdog timer is based on a counter that counts down from some initial value to zero. The embedded software selects the counter's initial value and periodically restarts it. If the counter ever reaches zero before the software restarts it, the software is presumed to be malfunctioning and the processor's reset signal is asserted [[2](https://www.embedded.com/introduction-to-watchdog-timers/)]. The process of restarting the watchdog timer's counter is sometimes called “**kicking the dog**.” The appropriate visual metaphor is that of a man being attacked by a vicious dog. If he keeps kicking the dog, it can't ever bite him. But he must keep kicking the dog at regular intervals to avoid a bite. Similarly, the software must restart the watchdog timer at a regular rate, or risk being restarted. Another term for “*kicking*” is “*feeding*” the watchdog timer. The watchdog timer is continuously fed with the initial value so that the timer value can never reach zero.
 
-<span class="img_container center" style="display: block;">
-    <img alt="test" src="https://files.readme.io/b302301-out.gif" style="display:block; margin-left: auto; margin-right: auto;" title="caption" />
-    <span class="img_caption" style="display: block; text-align: center;">Fig asdfasd fwer asdf </span>
-</span>
-
-
+| ![space-1.jpg](https://files.readme.io/b302301-out.gif) | 
+|:--:| 
+| **Fig. 1** *A typical Watchdog setup* |
 
 dfgdfgdfgdfgdfg
